@@ -1,30 +1,31 @@
-import { Client, Collection, Events, GatewayIntentBits, Routes } from 'discord.js';
-import fs from 'fs';
-import path from 'path';
-import dotenv from 'dotenv';
-import config from './config.json' assert { type: 'json' };
+const { Client, Collection, Events, GatewayIntentBits, REST, Routes } = require('discord.js');
+const fs = require('fs');
+const path = require('path');
+const dotenv = require('dotenv');
+const config = require('./config.json');
 
 let TOKEN;
+let CLIENT_ID;
+let GUILD_ID;
 // Use .env to login when available
 if (fs.existsSync('./.env')) {
     dotenv.config();
     TOKEN = process.env.TOKEN;
+    CLIENT_ID = process.env.CLIENT_ID
+    GUILD_ID = process.env.GUILD_ID
 } else {
     TOKEN = config.TOKEN;
+    CLIENT_ID = config.CLIENT_ID;
 }
 
 const client = new Client({
     intents: [
         GatewayIntentBits.Guilds,
         GatewayIntentBits.GuildMessages,
-        GatewayIntentBits.MessageContent    
+        GatewayIntentBits.MessageContent
     ],
 });
 
-client.commands = new Collection();
+client.once(Events.ClientReady, c => console.log(`${c.user.tag} has logged in!`));
 
 client.login(TOKEN);
-
-client.once(Events.ClientReady, c => {
-    console.log(`${c.user.tag} has logged in!`);
-});

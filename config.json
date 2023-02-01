@@ -1,3 +1,4 @@
 {
-    "TOKEN": "enter your token here"
+    "TOKEN": "enter your token here",
+    "CLIENT_ID": "enter your application id here"
 }
